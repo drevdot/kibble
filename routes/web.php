@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MachineController;
+use App\Events\DispenseTriggered;
 
 Route::get('/', function () {
     return view('welcome');
