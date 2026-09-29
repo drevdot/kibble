@@ -15,11 +15,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $user = \App\Models\User::factory()->create([
+        'name' => 'Administrador',
+        'email' => 'admin@kibble.com',
+        'password' => bcrypt('password'),
+    ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+    $machine = \App\Models\Machine::create([
+        'user_id' => $user->id,
+        'mac_address' => 'AA:BB:CC:DD:EE:FF',
+        'alias' => 'Dispensador Principal',
+        'food_level_pct' => 75,
+        'water_level_pct' => 40,
+    ]);
+
+    \App\Models\Dispensation::create([
+        'machine_id' => $machine->id,
+        'dispense_type' => 'food',
+        'trigger_source' => 'manual',
+    ]);
     }
 }

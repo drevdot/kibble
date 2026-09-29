@@ -29,4 +29,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function machines() {
+        return $this ->hasMany(Machine::class);
+    }
+
 }
