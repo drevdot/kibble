@@ -8,6 +8,16 @@ use Illuminate\Http\Request;
 
 class DispensationController extends Controller
 {
+    // Lo usa el ESP32 para confirmar "ya serví" (no dispara WS, solo guarda historial)
+    public function store(Request $request) {
+        $log = Dispensation::create($request->validate([
+            'machine_id' => 'required|exists:machines,id',
+            'dispense_type' => 'required|in:food,water',
+            'trigger_source' => 'required|in:manual,schedule'
+        ]));
+        return response()->json($log, 201);
+    }
+
     public function manualDispense(Request $request, $machineId)
     {
         //Validar que la interfaz envíe 'food' o 'water'
