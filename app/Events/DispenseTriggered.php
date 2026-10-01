@@ -23,9 +23,13 @@ class DispenseTriggered implements ShouldBroadcastNow
 
     public function broadcastOn(): array
     {
+        // Reverb/Pusher solo permite [A-Za-z0-9_\-=@,.;] -> ':' es inválido.
+        // 'AA:BB:CC' -> 'aa-bb-cc'. El frontend y el ESP32 deben usar la misma regla.
+        $safeMac = str_replace(':', '-', strtolower($this->mac_address));
+
         // Crea un canal de transmisión basado en la dirección MAC de la máquina
         return [
-            new Channel('machine.' . $this->mac_address),
+            new Channel('machine.' . $safeMac),
         ];
     }
     
@@ -33,6 +37,7 @@ class DispenseTriggered implements ShouldBroadcastNow
     {
         return [
             'action' => $this->action,
+            'mac_address' => $this->mac_address,
             'timestamp' => now()->toIso8601String(),
         ];
     }

@@ -20,3 +20,6 @@ Route::post('/dispensations', [DispensationController::class, 'store']);
 Route::get('/schedules/{machineId}', [ScheduleController::class, 'index']);
 Route::post('/schedules', [ScheduleController::class, 'store']);
 Route::delete('/schedules/{id}', [ScheduleController::class, 'destroy']);
+
+//Endpoint para que Vue administre la dispensación manual
+Route::post('/machine/{machineId}/dispense', [DispensationController::class, 'manualDispense']);
